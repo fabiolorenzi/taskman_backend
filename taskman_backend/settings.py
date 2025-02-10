@@ -27,7 +27,6 @@ DEBUG = debugMode
 
 ALLOWED_HOSTS = allowed_hosts
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +40,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "taskman_backend"
 ]
-
 
 CORS_ORIGIN_ALLOW_ALL = cors_origin_allow_all
 CORS_ALLOWED_ORIGINS = cors_allowed_origins
@@ -77,10 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'taskman_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 
 DATABASES = {
     "default": {
@@ -92,7 +88,6 @@ DATABASES = {
         "PORT": dbPort
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -111,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
