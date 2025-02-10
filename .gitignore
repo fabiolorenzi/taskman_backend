@@ -3,3 +3,4 @@ __pycache__
 settings_data.py
 db.sqlite3
 taskman_backend/migrations
+temp.txt
