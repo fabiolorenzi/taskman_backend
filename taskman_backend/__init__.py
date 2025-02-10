@@ -5,5 +5,6 @@ from .models import (
     project,
     session,
     task,
+    team,
     user
 )
