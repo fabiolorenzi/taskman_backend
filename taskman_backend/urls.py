@@ -11,5 +11,6 @@ else:
 urlpatterns = [
     path("api/v1/sessions", sessions.all_sessions),
     path("api/v1/sessions/single", sessions.single_session),
-    path("api/v1/users", users.all_users)
+    path("api/v1/users", users.all_users),
+    path("api/v1/users/<int:id>", users.single_user)
 ]
