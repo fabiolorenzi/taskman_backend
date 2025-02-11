@@ -1,7 +1,6 @@
 from django.db import models
 
 class Task(models.Model):
-    id = models.IntegerField(null = False, unique = True, primary_key = True)
     number = models.IntegerField(null = False)
     title = models.CharField(null = False, max_length = 50)
     description = models.TextField(null = False, max_length = 500)
