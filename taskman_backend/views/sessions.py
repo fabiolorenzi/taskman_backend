@@ -43,7 +43,7 @@ def single_session(request):
         checkDate = (datetime.now().strftime("%Y/%m/%d %H:%M:%S")).replace(" ", "T").replace("/", "-")
         if targetSerialized.data["expire"] < checkDate:
             target.delete()
-            return JsonResponse(data={"message": "Session expired"}, status=status.HTTP_504_GATEWAY_TIMEOUT)
+            return JsonResponse(data={"message": "Session expired"}, status=status.HTTP_204_NO_CONTENT)
         return JsonResponse(data={"data": targetSerialized.data}, status=status.HTTP_200_OK)
     elif request.method == "DELETE":
         target.delete()
