@@ -95,5 +95,6 @@ def single_user(request, id):
             return JsonResponse(data={"message": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == "DELETE":
             target.delete()
+            targetSession.delete()
             return JsonResponse(data={"message": "User removed successfully"}, status=status.HTTP_204_NO_CONTENT)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
