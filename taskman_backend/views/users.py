@@ -30,7 +30,6 @@ def all_users(request):
             "created_at": created_at,
             "updated_at": created_at
         })
-        print(serializedData)
         if serializedData.is_valid():
             serializedData.save()
             return JsonResponse(data={"data": serializedData.data}, status=status.HTTP_201_CREATED)
