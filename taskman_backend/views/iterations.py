@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework import status
 from taskman_backend.serializers.iterationSerializer import IterationSerializer
