@@ -36,7 +36,7 @@ def all_users(request):
         return JsonResponse(data={"message": "The body is not valid"}, status=status.HTTP_400_BAD_REQUEST)
        
 @api_view(["GET", "PUT", "DELETE"])
-def single_user(request, id):
+def single_user(request, userid, id):
     try:
         target = User.objects.get(pk=id)
         targetUser = UserSerializer(target)
@@ -44,7 +44,7 @@ def single_user(request, id):
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     try:
-        targetSession = Session.objects.get(user=id)
+        targetSession = Session.objects.get(user=userid)
         serializedSession = SessionSerializer(targetSession)
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -65,7 +65,7 @@ def single_user(request, id):
                 "name": name,
                 "surname": surname,
                 "email": email,
-                "password": password,
+                "password": password if userid == userId else "XXXXX",
                 "created_at": created_at,
                 "updated_at": updated_at
             })
