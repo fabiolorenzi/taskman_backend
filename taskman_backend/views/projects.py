@@ -52,11 +52,6 @@ def all_projects(request, id):
         return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
-
-    # REVIEW THE GET ALL TO ALLOW TO CHECK THE TEAMS AND SEE IF THE USER
-    # SHOULD BE ABLE TO SEE THAT PROJECT
-
 @api_view(["GET", "PUT", "DELETE"])
 def single_project(request, userid, id):
     try:
