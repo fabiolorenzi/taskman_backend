@@ -18,7 +18,7 @@ def all_iterations(request, id):
     if request.method == "GET":
         project = request.GET.get("project", "")
 
-        all_iterations = Iteration.models.filter(project=project).order_by("version")
+        all_iterations = Iteration.objects.filter(project=project).order_by("version")
         serializedIterations = IterationSerializer(all_iterations, many = True)
         return JsonResponse(data={"data": serializedIterations.data}, status=status.HTTP_200_OK)
     elif request.method == "POST":
@@ -50,13 +50,13 @@ def all_iterations(request, id):
 @api_view(["GET", "PUT", "DELETE"])
 def single_iteration(request, userid, id):
     try:
-        target = Iteration.objects.get(pk=userid)
+        target = Iteration.objects.get(pk=id)
         targetIteration = IterationSerializer(target)
     except target.DoesNotExist:
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     try:
-        targetSession = Session.objects.get(user=id)
+        targetSession = Session.objects.get(user=userid)
         serializedSession = SessionSerializer(targetSession)
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)

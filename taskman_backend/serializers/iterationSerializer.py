@@ -6,7 +6,7 @@ class IterationSerializer(serializers.ModelSerializer):
         model = Iteration
         fields = (
             "id",
-            "project"
+            "project",
             "version",
             "title",
             "description",

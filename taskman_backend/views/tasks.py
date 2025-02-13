@@ -19,7 +19,7 @@ def all_tasks(request, id):
         project = request.GET.get("project", "")
         iteration = request.GET.get("iteration", "")
 
-        all_tasks = Task.models.filter(project=project).filter(iteration=iteration).order_by("version")
+        all_tasks = Task.objects.filter(project=project).filter(iteration=iteration).order_by("number")
         serializedTasks = TaskSerializer(all_tasks, many = True)
         return JsonResponse(data={"data": serializedTasks.data}, status=status.HTTP_200_OK)
     elif request.method == "POST":
@@ -28,7 +28,7 @@ def all_tasks(request, id):
         description = request.data["description"]
         type = request.data["type"]
         priority = request.data["priority"]
-        status = request.data["status"]
+        st = request.data["status"]
         project = request.data["project"]
         user = request.data["user"]
         iteration = request.data["iteration"]
@@ -40,7 +40,7 @@ def all_tasks(request, id):
             "description": description,
             "type": type,
             "priority": priority,
-            "status": status,
+            "status": st,
             "project": project,
             "user": user,
             "iteration": iteration,
@@ -57,13 +57,13 @@ def all_tasks(request, id):
 @api_view(["GET", "PUT", "DELETE"])
 def single_task(request, userid, id):
     try:
-        target = Task.objects.get(pk=userid)
+        target = Task.objects.get(pk=id)
         targetTask = TaskSerializer(target)
     except target.DoesNotExist:
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     try:
-        targetSession = Session.objects.get(user=id)
+        targetSession = Session.objects.get(user=userid)
         serializedSession = SessionSerializer(targetSession)
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -77,7 +77,7 @@ def single_task(request, userid, id):
             description = targetTask.data["description"]
             type = targetTask.data["type"]
             priority = targetTask.data["priority"]
-            status = targetTask.data["status"]
+            st = targetTask.data["status"]
             project = targetTask.data["project"]
             user = targetTask.data["user"]
             iteration = targetTask.data["iteration"]
@@ -91,7 +91,7 @@ def single_task(request, userid, id):
                 "description": description,
                 "type": type,
                 "priority": priority,
-                "status": status,
+                "status": st,
                 "project": project,
                 "user": user,
                 "iteration": iteration,
@@ -106,7 +106,7 @@ def single_task(request, userid, id):
             description = request.data["description"]
             type = request.data["type"]
             priority = request.data["priority"]
-            status = request.data["status"]
+            st = request.data["status"]
             project = request.data["project"]
             user = request.data["user"]
             iteration = request.data["iteration"]
@@ -121,7 +121,7 @@ def single_task(request, userid, id):
                     "description": description,
                     "type": type,
                     "priority": priority,
-                    "status": status,
+                    "status": st,
                     "project": project,
                     "user": user,
                     "iteration": iteration,
