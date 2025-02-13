@@ -20,5 +20,6 @@ urlpatterns = [
     path("api/v1/teams", teams.all_teams),
     path("api/v1/teams/<int:id>", teams.single_team),
     path("api/v1/users", users.all_users),
-    path("api/v1/users/<int:id>", users.single_user)
+    path("api/v1/users/<int:id>", users.single_user),
+    path("api/v1/users/email", users.single_user_by_email)
 ]
