@@ -4,8 +4,10 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from taskman_backend.serializers.projectSerializer import ProjectSerializer
 from taskman_backend.serializers.sessionSerializer import SessionSerializer
+from taskman_backend.serializers.teamSerializer import TeamSerializer
 from taskman_backend.models.project import Project
 from taskman_backend.models.session import Session
+from taskman_backend.models.team import Team
 from datetime import datetime
 
 @api_view(["GET", "POST"])
@@ -19,12 +21,16 @@ def all_projects(request, id):
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
         if request.method == "GET":
-            main_user = request.GET.get("main_user", "")
-            user = request.GET.get("user", "")
-            if serializedSession.data["user"] != main_user and serializedSession.data["user"] != user:
-                return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            teams = []
+            try:
+                targetTeams = Team.objects.filter(user=id)
+                serializedTeams = TeamSerializer(targetTeams, many = True)
+                for team in serializedTeams.data:
+                    teams.append(team["id"])
+            except:
+                return JsonResponse(data={"data": []}, status=status.HTTP_200_OK)
 
-            all_projects = Project.models.filter(Q(main_user=main_user)).order_by("name")
+            all_projects = Project.objects.filter(Q(main_user=id) | Q(id__in=teams)).order_by("name")
             serializedProject = ProjectSerializer(all_projects, many = True)
             return JsonResponse(data={"data": serializedProject.data}, status=status.HTTP_200_OK)
         elif request.method == "POST":
@@ -68,7 +74,16 @@ def single_project(request, userid, id):
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
         if request.method == "GET":
-            if serializedSession.data["user"] == targetProject.data["main_user"]:
+            teams = []
+            try:
+                targetTeams = Team.objects.filter(user=userid)
+                serializedTeams = TeamSerializer(targetTeams, many = True)
+                for team in serializedTeams.data:
+                    teams.append(team["id"])
+            except:
+                return JsonResponse(data={"data": []}, status=status.HTTP_200_OK)
+            
+            if userid == targetProject.data["main_user"] or targetProject.data["id"] in teams:
                 projectId = targetProject.data["id"]
                 name = targetProject.data["name"]
                 description = targetProject.data["description"]
