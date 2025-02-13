@@ -3,7 +3,7 @@ from ..models.team import Team
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model: Team
+        model = Team
         fields = (
             "id",
             "user",

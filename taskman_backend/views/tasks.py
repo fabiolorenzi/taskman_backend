@@ -8,7 +8,7 @@ from taskman_backend.models.session import Session
 from datetime import datetime
 
 @api_view(["GET", "POST"])
-def all_tasks(request):
+def all_tasks(request, id):
     try:
         targetSession = Session.objects.get(user=id)
         serializedSession = SessionSerializer(targetSession)
@@ -55,9 +55,9 @@ def all_tasks(request):
     return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(["GET", "PUT", "DELETE"])
-def single_task(request, id):
+def single_task(request, userid, id):
     try:
-        target = Task.objects.get(pk=id)
+        target = Task.objects.get(pk=userid)
         targetTask = TaskSerializer(target)
     except target.DoesNotExist:
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
