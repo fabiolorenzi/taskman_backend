@@ -97,34 +97,3 @@ def single_user(request, id):
             targetSession.delete()
             return JsonResponse(data={"message": "User removed successfully"}, status=status.HTTP_204_NO_CONTENT)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
-
-@api_view(["GET"])
-def single_user_by_email(request):
-    try:
-        email = request.GET.get["email"]
-        target = User.objects.get(email=email)
-        targetUser = UserSerializer(target)
-    except target.DoesNotExist:
-        return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    try:
-        targetSession = Session.objects.get(user=id)
-        serializedSession = SessionSerializer(targetSession)
-    except:
-        return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
-    
-    currentPasscode = request.data["passcode"]
-    if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
-            userId = targetUser.data["id"]
-            name = targetUser.data["name"]
-            surname = targetUser.data["surname"]
-            email = targetUser.data["email"]
-
-            serializedUser = UserSerializer({
-                "id": userId,
-                "name": name,
-                "surname": surname,
-                "email": email
-            })
-            return JsonResponse(data={"data": serializedUser.data}, status=status.HTTP_200_OK)
