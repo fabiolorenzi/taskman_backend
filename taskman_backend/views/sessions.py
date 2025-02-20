@@ -19,9 +19,9 @@ def all_sessions(request):
 
         for user in all_users_ser.data:
             if user["email"] == email and user["password"] == password:
-                targetSession = Session.objects.get(user=user["id"])
-                sessionSerialized = SessionSerializer(targetSession)
-                if sessionSerialized.data:
+                targetSession = Session.objects.filter(user=user["id"])
+                sessionSerialized = SessionSerializer(targetSession, many = True)
+                if len(sessionSerialized.data) > 0:
                     targetSession.delete()
 
                 serializedData = SessionSerializer(data={
