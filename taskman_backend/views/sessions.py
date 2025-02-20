@@ -19,6 +19,11 @@ def all_sessions(request):
 
         for user in all_users_ser.data:
             if user["email"] == email and user["password"] == password:
+                targetSession = Session.objects.get(user=user["id"])
+                sessionSerialized = SessionSerializer(targetSession)
+                if sessionSerialized.data:
+                    targetSession.delete()
+
                 serializedData = SessionSerializer(data={
                     "user": user["id"],
                     "passcode": generatePasscode(user["id"]),
