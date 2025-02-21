@@ -47,7 +47,16 @@ def all_projects(request, id):
             })
             if serializedData.is_valid():
                 serializedData.save()
-                return JsonResponse(data={"data": serializedData.data}, status=status.HTTP_201_CREATED)
+                serializedTeam = TeamSerializer(data={
+                    "user": main_user,
+                    "role": "main",
+                    "project": serializedData.data["id"],
+                    "created_at": created_at,
+                    "updated_at": created_at
+                })
+                if serializedTeam.is_valid():
+                    serializedTeam.save()
+                    return JsonResponse(data={"data": serializedData.data}, status=status.HTTP_201_CREATED)
             return JsonResponse(data={"message": "The body is not valid"}, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)

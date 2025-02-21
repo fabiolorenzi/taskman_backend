@@ -9,7 +9,7 @@ from taskman_backend.models.project import Project
 from taskman_backend.models.session import Session
 from datetime import datetime
 
-@api_view(["GET", "POST"])
+@api_view(["PATCH", "POST"])
 def all_teams(request, id):
     try:
         targetSession = Session.objects.get(user=id)
@@ -19,13 +19,13 @@ def all_teams(request, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             teams = []
             try:
                 targetTeams = Team.objects.filter(user=id)
                 serializedTeams = TeamSerializer(targetTeams, many = True)
                 for team in serializedTeams.data:
-                    teams.append(team["id"])
+                    teams.append(team["project"])
             except:
                 return JsonResponse(data={"data": []}, status=status.HTTP_200_OK)
             
