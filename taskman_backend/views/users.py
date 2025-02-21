@@ -35,7 +35,7 @@ def all_users(request):
             return JsonResponse(data={"data": serializedData.data}, status=status.HTTP_201_CREATED)
         return JsonResponse(data={"message": "The body is not valid"}, status=status.HTTP_400_BAD_REQUEST)
        
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["PATCH", "PUT", "DELETE"])
 def single_user(request, userid, id):
     try:
         target = User.objects.get(pk=id)
@@ -51,7 +51,7 @@ def single_user(request, userid, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             userId = targetUser.data["id"]
             name = targetUser.data["name"]
             surname = targetUser.data["surname"]

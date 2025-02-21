@@ -36,7 +36,7 @@ def all_sessions(request):
         return JsonResponse(data={"message": "Login failed"}, status=status.HTTP_401_UNAUTHORIZED)
     return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         
-@api_view(["GET", "DELETE"])
+@api_view(["PATCH", "DELETE"])
 def single_session(request):
     try:
         target = Session.objects.get(passcode=request.data["passcode"])
@@ -44,7 +44,7 @@ def single_session(request):
     except:
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
     
-    if request.method == "GET":
+    if request.method == "PATCH":
         checkDate = (datetime.now().strftime("%Y/%m/%d %H:%M:%S")).replace(" ", "T").replace("/", "-")
         if targetSerialized.data["expire"] < checkDate:
             target.delete()

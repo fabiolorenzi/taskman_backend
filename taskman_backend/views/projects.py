@@ -10,7 +10,7 @@ from taskman_backend.models.session import Session
 from taskman_backend.models.team import Team
 from datetime import datetime
 
-@api_view(["GET", "POST"])
+@api_view(["PATCH", "POST"])
 def all_projects(request, id):
     try:
         targetSession = Session.objects.get(user=id)
@@ -20,7 +20,7 @@ def all_projects(request, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             teams = []
             try:
                 targetTeams = Team.objects.filter(user=id)
@@ -52,7 +52,7 @@ def all_projects(request, id):
         return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["PATCH", "PUT", "DELETE"])
 def single_project(request, userid, id):
     try:
         target = Project.objects.get(pk=id)
@@ -68,7 +68,7 @@ def single_project(request, userid, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             teams = []
             try:
                 targetTeams = Team.objects.filter(user=userid)
