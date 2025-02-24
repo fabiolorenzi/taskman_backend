@@ -66,13 +66,13 @@ def all_teams(request, id):
 @api_view(["PATCH", "PUT", "DELETE"])
 def single_team(request, userid, id):
     try:
-        target = Team.objects.get(pk=userid)
+        target = Team.objects.get(pk=id)
         targetTeam = TeamSerializer(target)
     except target.DoesNotExist:
         return JsonResponse(data={"message": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     try:
-        targetSession = Session.objects.get(user=id)
+        targetSession = Session.objects.get(user=userid)
         serializedSession = SessionSerializer(targetSession)
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
