@@ -63,7 +63,7 @@ def all_teams(request, id):
         return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     return JsonResponse(data={"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["PATCH", "PUT", "DELETE"])
 def single_team(request, userid, id):
     try:
         target = Team.objects.get(pk=userid)
@@ -79,7 +79,7 @@ def single_team(request, userid, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             teamId = targetTeam.data["id"]
             user = targetTeam.data["user"]
             role = targetTeam.data["role"]
