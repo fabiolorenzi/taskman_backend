@@ -7,7 +7,7 @@ from taskman_backend.models.iteration import Iteration
 from taskman_backend.models.session import Session
 from datetime import datetime
 
-@api_view(["GET", "POST"])
+@api_view(["PATCH", "POST"])
 def all_iterations(request, id):
     try:
         targetSession = Session.objects.get(user=id)
@@ -15,7 +15,7 @@ def all_iterations(request, id):
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
     
-    if request.method == "GET":
+    if request.method == "PATCH":
         project = request.GET.get("project", "")
 
         all_iterations = Iteration.objects.filter(project=project).order_by("version")
@@ -47,7 +47,7 @@ def all_iterations(request, id):
         return JsonResponse(data={"message": "The body is not valid"}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["PATCH", "PUT", "DELETE"])
 def single_iteration(request, userid, id):
     try:
         target = Iteration.objects.get(pk=id)
@@ -63,7 +63,7 @@ def single_iteration(request, userid, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             iterationId = targetIteration.data["id"]
             project = targetIteration.data["project"]
             version = targetIteration.data["version"]

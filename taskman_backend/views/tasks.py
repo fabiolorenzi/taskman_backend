@@ -7,7 +7,7 @@ from taskman_backend.models.task import Task
 from taskman_backend.models.session import Session
 from datetime import datetime
 
-@api_view(["GET", "POST"])
+@api_view(["PATCH", "POST"])
 def all_tasks(request, id):
     try:
         targetSession = Session.objects.get(user=id)
@@ -15,7 +15,7 @@ def all_tasks(request, id):
     except:
         return JsonResponse(data={"message": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
     
-    if request.method == "GET":
+    if request.method == "PATCH":
         project = request.GET.get("project", "")
         iteration = request.GET.get("iteration", "")
 
@@ -54,7 +54,7 @@ def all_tasks(request, id):
         return JsonResponse(data={"message": "The body is not valid"}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(data={"message": "The method is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["PATCH", "PUT", "DELETE"])
 def single_task(request, userid, id):
     try:
         target = Task.objects.get(pk=id)
@@ -70,7 +70,7 @@ def single_task(request, userid, id):
     
     currentPasscode = request.data["passcode"]
     if serializedSession.data["passcode"] == currentPasscode:
-        if request.method == "GET":
+        if request.method == "PATCH":
             taskId = targetTask.data["id"]
             number = targetTask.data["number"]
             title = targetTask.data["title"]
