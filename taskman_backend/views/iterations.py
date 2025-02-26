@@ -96,7 +96,7 @@ def single_iteration(request, userid, id):
             end_date = request.data["end_date"]
             created_at = targetIteration.data["created_at"]
             updated_at = datetime.now()
-            updated_by = targetSession.data["user"]
+            updated_by = targetSession.data["updated_by"]
             updatedIterationSerialized = IterationSerializer(
                 target,
                 data={
