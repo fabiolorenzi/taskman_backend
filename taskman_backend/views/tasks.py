@@ -33,7 +33,7 @@ def all_tasks(request, id):
         user = request.data["user"]
         iteration = request.data["iteration"]
         created_at = datetime.now()
-        updated_by = serializedSession.data["user"]
+        updated_by = request.data["user"]
         serializedData = TaskSerializer(data={
             "number": number,
             "title": title,
@@ -112,7 +112,7 @@ def single_task(request, userid, id):
             iteration = request.data["iteration"]
             created_at = targetTask.data["created_at"]
             updated_at = datetime.now()
-            updated_by = targetSession.data["user"]
+            updated_by = request.data["user"]
             updatedTaskSerialized = TaskSerializer(
                 target,
                 data={
